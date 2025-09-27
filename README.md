@@ -68,33 +68,33 @@ This project runs as a GitHub Actions workflow to monitor a Gmail inbox for Immo
 - **Email audit trail**: Forwarded emails appear as GitHub Issues for tracking
 
 ## Configuration
-- **Schedule**: Modify the cron expression in `.github/workflows/email-to-telegram.yml`
-- **Email Sources**: Update the search criteria in `main.py` to include other senders
-- **Message Format**: Customize the `format_telegram_message` function
+- **Email Filtering**: Modify Gmail filter criteria to include other senders
+- **Message Format**: Customize the `format_telegram_message` function in `apartment_parser.py`
+- **Issue Processing**: Adjust keyword detection in `github_email_processor.py`
+- **Backup Schedule**: Modify cron expression if you want to keep polling as backup
 
 ## Project Structure
 ```
 ├── main.py                           # Main application entry point
 ├── config.py                         # Configuration and environment validation
-├── email_processor.py                # Gmail IMAP operations
+├── github_email_processor.py         # GitHub Issues email processing
 ├── apartment_parser.py               # Email parsing and data extraction
 ├── telegram_bot.py                   # Telegram bot integration
 ├── test_utils.py                     # Mock testing utilities
 ├── requirements.txt                  # Python dependencies
 ├── .github/workflows/email-to-telegram.yml  # GitHub Actions workflow
+├── EMAIL_FORWARDING_SETUP.md         # Detailed email forwarding guide
 ├── .env.example                      # Environment variables template
 ├── .env.test                         # Test mode configuration
-├── setup.ps1 / setup.sh              # Setup scripts for Windows/Unix
 ├── .gitignore                        # Git ignore file
-├── .venv/                            # Virtual environment (not committed)
 └── README.md                         # This file
 ```
 
 ## Security Notes
-- Never commit credentials to the repository
-- Use GitHub Secrets for sensitive information
-- The `.env` file is ignored by Git for local testing
-- App passwords are more secure than your main Gmail password
+- **No Gmail credentials needed** - email forwarding handles authentication
+- Use GitHub Secrets for Telegram bot credentials only
+- Email forwarding is more secure than storing email passwords
+- All email content is processed through GitHub's secure infrastructure
 
 ## Troubleshooting
 
