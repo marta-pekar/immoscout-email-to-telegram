@@ -1,11 +1,9 @@
 name: Email to Telegram
 
 on:
+  schedule:
+    - cron: '*/15 * * * *'  # Check every 15 minutes
   workflow_dispatch:  # Manual trigger for testing
-  issues:
-    types: [opened]  # Trigger when new issue is created (via email)
-  repository_dispatch:
-    types: [email_received]  # Trigger via webhook
 
 jobs:
   email-to-telegram:
@@ -20,11 +18,8 @@ jobs:
         run: pip install -r requirements.txt
       - name: Run script
         env:
+          EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          GITHUB_EVENT_NAME: ${{ github.event_name }}
-          GITHUB_EVENT_ISSUE_NUMBER: ${{ github.event.issue.number }}
-          GITHUB_EVENT_ISSUE_TITLE: ${{ github.event.issue.title }}
-          GITHUB_EVENT_ISSUE_BODY: ${{ github.event.issue.body }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
         run: python main.py

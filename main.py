@@ -1,12 +1,11 @@
 """
 Main application entry point for the Immoscout Email to Telegram bot.
-Supports both Gmail IMAP and GitHub Issues email forwarding.
+Gmail IMAP polling version.
 """
 import asyncio
 import os
 from config import validate_environment, logger
 from email_processor import test_gmail_connection, fetch_immoscout_emails, mark_email_as_read
-from github_email_processor import process_github_issue_email, should_process_github_event
 from telegram_bot import test_telegram_connection, send_telegram_message
 from apartment_parser import parse_apartment_info, format_telegram_message
 from test_utils import mock_test_connections, mock_email_processing, show_parsing_examples

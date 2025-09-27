@@ -14,6 +14,10 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 # Environment variables
+EMAIL_ADDRESS = os.environ.get('EMAIL_ADDRESS')
+EMAIL_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+IMAP_SERVER = os.environ.get('IMAP_SERVER', 'imap.gmail.com')
+IMAP_PORT = int(os.environ.get('IMAP_PORT', 993))
 TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID')
 
@@ -26,7 +30,7 @@ def validate_environment():
         logger.info("🧪 Running in TEST MODE - no real credentials needed")
         return True
     
-    required_vars = ['TELEGRAM_BOT_TOKEN', 'TELEGRAM_CHAT_ID']
+    required_vars = ['EMAIL_ADDRESS', 'EMAIL_PASSWORD', 'TELEGRAM_BOT_TOKEN', 'TELEGRAM_CHAT_ID']
     missing_vars = [var for var in required_vars if not os.environ.get(var)]
     
     if missing_vars:
