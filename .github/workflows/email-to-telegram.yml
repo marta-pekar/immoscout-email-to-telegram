@@ -1,9 +1,7 @@
 name: Email to Telegram
 
 on:
-  schedule:
-    - cron: '*/15 * * * *'  # Backup: still check every 15 minutes
-  workflow_dispatch:
+  workflow_dispatch:  # Manual trigger for testing
   issues:
     types: [opened]  # Trigger when new issue is created (via email)
   repository_dispatch:
