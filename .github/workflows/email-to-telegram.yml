@@ -2,8 +2,12 @@ name: Email to Telegram
 
 on:
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '*/15 * * * *'  # Backup: still check every 15 minutes
   workflow_dispatch:
+  issues:
+    types: [opened]  # Trigger when new issue is created (via email)
+  repository_dispatch:
+    types: [email_received]  # Trigger via webhook
 
 jobs:
   email-to-telegram:

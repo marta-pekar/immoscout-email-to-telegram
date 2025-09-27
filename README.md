@@ -3,22 +3,27 @@
 This project runs as a GitHub Actions workflow to monitor a Gmail inbox for Immobilien Scout apartment notification emails and forwards relevant information to a Telegram chat via a bot.
 
 ## Features
-- Connects to Gmail using IMAP with robust error handling
+- **Instant email processing** via Gmail forwarding to GitHub Issues
+- **No Gmail credentials required** in GitHub Actions
 - Filters and parses Immobilien Scout apartment notification emails
 - Extracts key apartment details (price, rooms, area, location, URL)
 - Sends formatted messages to Telegram with apartment information
-- Runs automatically on a schedule via GitHub Actions
+- Triggered instantly when new emails arrive (no polling delays)
 - Comprehensive logging for monitoring and debugging
 
 ## Prerequisites
 
-### Gmail Setup
-1. Enable 2-factor authentication on your Gmail account
-2. Enable IMAP access in Gmail settings
-3. Generate an App Password:
-   - Go to Google Account settings
-   - Security → 2-Step Verification → App passwords
-   - Generate a password for "Mail"
+### Email Forwarding Setup
+1. **Set up Gmail forwarding**:
+   - Gmail → Settings → Forwarding and POP/IMAP
+   - Add forwarding address: `marta-pekar+immoscout-email-to-telegram@users.noreply.github.com`
+   - Verify the forwarding address via email confirmation
+
+2. **Create Gmail filter**:
+   - Gmail → Settings → Filters and Blocked Addresses → Create new filter
+   - **From:** `*@immobilienscout24.de`
+   - **Action:** Forward to your GitHub repository email
+   - This ensures only apartment emails trigger the workflow
 
 ### Telegram Setup
 1. Create a Telegram bot:
@@ -35,11 +40,12 @@ This project runs as a GitHub Actions workflow to monitor a Gmail inbox for Immo
 
 ### For GitHub Actions (Recommended)
 1. Fork or clone this repository
-2. Add the following secrets to your GitHub repository:
-   - `GMAIL_USER`: Your Gmail address
-   - `GMAIL_APP_PASSWORD`: Your Gmail App Password
+2. Set up email forwarding (see Prerequisites above)
+3. Add the following secrets to your GitHub repository:
    - `TELEGRAM_BOT_TOKEN`: Your Telegram bot token
    - `TELEGRAM_CHAT_ID`: Your Telegram chat ID
+
+**Note:** No Gmail credentials needed! Email forwarding handles authentication automatically.
 
 ### For Local Testing
 1. Clone the repository
@@ -56,10 +62,10 @@ This project runs as a GitHub Actions workflow to monitor a Gmail inbox for Immo
 5. Run locally: `python main.py`
 
 ## Usage
-- The GitHub Actions workflow runs every 15 minutes automatically
-- You can also trigger it manually from the Actions tab
-- The script processes only unread emails from Immobilien Scout
-- Successfully processed emails are marked as read
+- **Instant processing**: Workflow triggers immediately when Immobilien Scout sends email
+- **Manual trigger**: You can also run manually from the Actions tab
+- **Automatic filtering**: Only emails from Immobilien Scout domains are processed
+- **Email audit trail**: Forwarded emails appear as GitHub Issues for tracking
 
 ## Configuration
 - **Schedule**: Modify the cron expression in `.github/workflows/email-to-telegram.yml`
@@ -91,10 +97,17 @@ This project runs as a GitHub Actions workflow to monitor a Gmail inbox for Immo
 - App passwords are more secure than your main Gmail password
 
 ## Troubleshooting
+
+### Email Forwarding Issues
+- **Emails not triggering workflow**: Verify Gmail forwarding is set up correctly
+- **Wrong emails being processed**: Check Gmail filter criteria
+- **No GitHub Issues created**: Confirm forwarding address is correct
+
+### General Issues
 - Check GitHub Actions logs for detailed error messages
-- Ensure all environment variables are properly set
-- Verify Gmail IMAP is enabled and App Password is correct
 - Test Telegram bot token with a simple API call
+- Verify the bot can send messages to your chat
+- Check that GitHub Issues are being created from forwarded emails
 
 ## License
 This project is open source and available under the MIT License.
